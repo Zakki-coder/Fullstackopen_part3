@@ -1,7 +1,16 @@
 const express = require('express')
 const app = express() //We create object representing express app
-let persons = require('./db.json')
+const morgan = require('morgan')
+const util = require('util')
+let persons = require('./db.json') //TODO How to update the json file?
 
+morgan.token('body', (req, res) => {
+	if (req.method === 'POST')
+		return JSON.stringify(req.body)
+	return null
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(express.json())
 
 const PORT = 3001
@@ -32,7 +41,6 @@ app.get('/api/persons/:id', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
 	const id = Number(req.params.id)
 	persons = persons.filter(person => person.id !== id)
-	console.log(persons)
 })
 
 app.post('/api/persons', (req, res) => {
@@ -52,5 +60,5 @@ app.post('/api/persons', (req, res) => {
 		})
 	const person = {...body, id: id}
 	persons = persons.concat(person)
-	console.log(persons)
+	return res.json(person)
 })
