@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'phonephonebook'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5C4FF38A8DDC49DC981A46DC77F7FD5B }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9416DCD07A8A4A02B07E4994CD3DB038 }}
           package: .
