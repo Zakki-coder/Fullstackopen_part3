@@ -1,1 +1,1 @@
-https://phonephonebook.azurewebsites.net/api/persons
+https://phonephonebook.azurewebsites.net/
