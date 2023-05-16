@@ -49,6 +49,11 @@ app.get('/api/persons', (req, res) => {
 	Person.find({}).then(person => {
 		res.json(person)
 	})
+	.catch(error => {
+		res.status(404).json({
+			error: error
+		})
+	})
 })
 
 app.get('/info', (req, res) => {
