@@ -3,9 +3,8 @@ const mongoose = require('mongoose')
 // if (argvLen === 4 || argvLen > 5)
 // 	process.exit(1)
 
-const password = "kcatslluf" //Fix this
-const url =
-	`mongodb+srv://fullstack:${password}@phonebook.jb7vwo2.mongodb.net/?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URI
+	// `mongodb+srv://fullstack:${password}@phonebook.jb7vwo2.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.set('strictQuery', false)
 mongoose.connect(url)
