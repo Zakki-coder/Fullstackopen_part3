@@ -15,6 +15,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+	"lint": "eslint .",
     "debug": "nodemon --inspect index.js"
   },
   "browserslist": {
@@ -32,5 +33,12 @@
   "description": "",
   "main": "index.js",
   "author": "jniemine",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1"
+  }
 }
