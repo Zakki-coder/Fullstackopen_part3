@@ -16,10 +16,18 @@ mongoose.connect(url)
 	})
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: Number,
+  name: {
+	type: String,
+	required: true,
+	minLength: 3
+  },
+  number: {
+	type: Number,
+	required: true
+  }
 })
 
+//Change the default behaviour of toJSON on schema!
 personSchema.set('toJSON', {
 	transform: (document, returnedObject) => {
 		returnedObject.id = returnedObject._id.toString()

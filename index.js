@@ -5,6 +5,7 @@ const morgan = require('morgan')
 // const cors = require('cors')
 const Person = require('./models/person')
 
+//TODO What happens with unnamed number?
 app.use(express.static('build'))
 // app.use(cors())
 
@@ -57,13 +58,18 @@ app.get('/api/persons/:id', (req, res, next) => {
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
-	const body = req.body
+	// const body = req.body
+	const { name, number } = req.body
 	const id = req.params.id
-	const person = {
-		name: body.name,
-		number: body.number
-	}
-	Person.findByIdAndUpdate(id, person, {returnDocument: 'after'})
+	// const person = {
+	// 	name: body.name,
+	// 	number: body.number
+	// }
+	Person.findByIdAndUpdate(
+		id,
+		{name, number},
+		{ new:true, runValidators:true, context: 'query', returnDocument: 'after'}
+	)
 	.then(updatedPerson => {
 		res.json(updatedPerson)
 	})
@@ -88,26 +94,15 @@ const validateBody = (body, res) => {
 		return res.status(404).json({
 			error: 'number missing'
 		})
-	// Person.find( {name: body.name} )
-	// 	.then(person => {
-	// 		console.log(person)
-	// 		res.status(404).json({
-	// 			error: 'name must be unique'
-	// 		}).end()
-	// 	})
-	// if (persons.some(person => person.name === body.name))
-	// 	return res.status(404).json({
-	// 		error: 'name must be unique'
-		// })
 	return null
 }
 
 app.post('/api/persons', (req, res, next) => {
 	const id = Math.floor(Math.random() * 1000000)
 	const body = req.body
-	const validate = validateBody(body, res)
-	if (validate)
-		return validate
+	// const validate = validateBody(body, res)
+	// if (validate)
+	// 	return validate
 	const person = {...body, id: id}
 	Person.create(person)
 		.then(response => {
@@ -127,6 +122,8 @@ app.post('/api/persons', (req, res, next) => {
 
 		if (error.name === 'CastError') {
 			return response.status(400).send({ error: 'malformatted id' })
+		} else if (error.name === 'ValidationError') {
+			return response.status(400).send({ error: error.message })
 		}
 		
 		next(error)
